@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&amp;family=Cairo:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+<style>
+  html,body{margin:0;padding:0;background:#1e3540}
+  *{box-sizing:border-box}
+  a{color:#4eb9b6;text-decoration:none}
+  a:hover{color:#63c4c1}
+  button{font-family:inherit}
+  :focus-visible{outline:2px solid #4eb9b6;outline-offset:2px}
+  ::selection{background:rgba(78,185,182,.35)}
+  @keyframes goldGlow{0%,100%{opacity:.5;transform:scale(.95)}50%{opacity:1;transform:scale(1.06)}}
+</style>
+</helmet>
+<div dir="rtl" style="position:relative;min-height:100vh;background:#1e3540;font-family:Cairo,system-ui,sans-serif;color:#fff">
+
+  <div style="position:fixed;inset:0;background-image:url(assets/pattern-chevrons.png);background-size:560px auto;background-repeat:repeat;background-position:top left;opacity:.06;pointer-events:none;z-index:0"></div>
+
+  <header style="position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 36px;background:#1e3540;border-bottom:1px solid rgba(255,255,255,.08);overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url(assets/pattern-chevrons.png);background-size:560px auto;background-repeat:repeat;background-position:top left;opacity:.06;pointer-events:none"></div>
+    <div style="display:flex;align-items:center;gap:30px">
+      <img src="assets/logo-wordmark.png" alt="جامعة طور" style="height:52px;width:auto;display:block">
+      <nav style="display:flex;align-items:center;gap:22px">
+      </nav>
+    </div>
+    <div style="position:relative;display:flex;align-items:center;gap:12px">
+      <sc-if value="{{ notHome }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ goHome }}" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(255,255,255,.1)">الرئيسية</button>
+      </sc-if>
+      <sc-if value="{{ showBackToAccount }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ goAccount }}" style="background:#4eb9b6;color:#fff;border:0;border-radius:999px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:#63c4c1">ارجع لصفحة حسابي</button>
+      </sc-if>
+      <sc-if value="{{ notLoggedIn }}" hint-placeholder-val="{{ true }}">
+        <button onClick="{{ goLogin }}" style="background:#4eb9b6;color:#fff;border:0;border-radius:999px;padding:11px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:#63c4c1">تسجيل الدخول</button>
+      </sc-if>
+      <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ false }}">
+        <span style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#4eb9b6;background:rgba(78,185,182,.14);border:1px solid rgba(78,185,182,.35);border-radius:999px;padding:9px 18px">{{ headerUserLabel }}</span>
+        <button onClick="{{ onLogout }}" style="background:transparent;color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(255,255,255,.1)">خروج</button>
+      </sc-if>
+    </div>
+  </header>
+
+  <main style="position:relative;z-index:1;width:100%;box-sizing:border-box;padding:0 36px 64px">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <section style="display:flex;flex-direction:column;gap:72px">
+
+        <div style="position:relative;display:flex;justify-content:flex-start;width:100%;min-height:420px;align-items:flex-start;padding:28px 0 8px;overflow:hidden">
+          <div style="position:absolute;bottom:20px;right:0;z-index:0;pointer-events:none;display:flex;align-items:flex-end;justify-content:flex-end">
+            <div style="position:absolute;bottom:-46px;right:-34px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle at 60% 60%,rgba(78,185,182,.22),transparent 68%)"></div>
+            <img src="assets/chevron-mark.png" alt="" style="position:relative;width:206px;height:auto;opacity:.9;filter:drop-shadow(0 18px 34px rgba(0,0,0,.42))">
+          </div>
+          <div style="position:absolute;bottom:56px;left:0;z-index:0;display:flex;align-items:flex-end;gap:14px;pointer-events:none">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+              <span style="font-size:13px;font-weight:700;color:#ee7c7d">دكتوراه</span>
+              <span style="width:56px;height:230px;border-radius:12px;background:#ee7c7d"></span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+              <span style="font-size:13px;font-weight:700;color:#facb62">ماجستير</span>
+              <span style="width:56px;height:176px;border-radius:12px;background:#facb62"></span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+              <span style="font-size:13px;font-weight:700;color:#4eb9b6">بكالوريوس</span>
+              <span style="width:56px;height:122px;border-radius:12px;background:#4eb9b6"></span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+              <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.7)">دبلوم</span>
+              <span style="width:56px;height:68px;border-radius:12px;background:rgba(255,255,255,.22)"></span>
+            </div>
+          </div>
+          <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:22px;width:100%;max-width:620px;text-align:right">
+            <div style="display:flex;align-items:center;gap:14px;align-self:flex-start">
+              <h1 style="margin:0;font-family:Tajawal,sans-serif;font-weight:800;font-size:64px;line-height:1.15;letter-spacing:-0.01em;color:#fff">جامعة</h1>
+              <img src="assets/logo-wordmark.png" alt="طور" style="height:82px;width:auto;display:block">
+            </div>
+            <p style="margin:0;font-size:18px;font-weight:400;line-height:1.6;color:rgba(255,255,255,.66)">جامعة تعليمية تنافسية تتكوّن من عدة كليات، يتدرّج الطالب فيها عبر درجات أكاديمية: الدبلوم، البكالوريوس، الماجستير، والدكتوراه.</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+          <div style="background:#4eb9b6;border-radius:14px;padding:20px;color:#fff;box-shadow:0 14px 34px rgba(78,185,182,.22)">
+            <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15">٥</div>
+            <div style="margin-top:10px;font-size:16px;font-weight:600">كليات</div>
+            <div style="margin-top:3px;font-size:13px;font-weight:500;opacity:.75">يختار الطالب كلية واحدة إلزاميًا</div>
+          </div>
+          <div style="background:#facb62;border-radius:14px;padding:20px;color:#1e3540;box-shadow:0 14px 34px rgba(250,203,98,.22)">
+            <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15">٤</div>
+            <div style="margin-top:10px;font-size:16px;font-weight:600">مستويات</div>
+            <div style="margin-top:3px;font-size:13px;font-weight:500;opacity:.75">من الدبلوم إلى الدكتوراه</div>
+          </div>
+          <div style="background:#ee7c7d;border-radius:14px;padding:20px;color:#fff;box-shadow:0 14px 34px rgba(238,124,125,.2)">
+            <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15">١</div>
+            <div style="margin-top:10px;font-size:16px;font-weight:600">كلية إلزامية</div>
+            <div style="margin-top:3px;font-size:13px;font-weight:500;opacity:.75">يختارها الطالب بنفسه</div>
+          </div>
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px">
+            <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15;color:#fff">١</div>
+            <div style="margin-top:10px;font-size:16px;font-weight:600">كلية اختيارية</div>
+            <div style="margin-top:3px;font-size:13px;font-weight:500;color:#fff">المهارات والقيادة</div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:30px;line-height:1.3;color:#fff">الكليات الخمس</h2>
+            <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.58)">كليتك مفتوحة للدخول إلى خطتها، وبقية الكليات للعرض فقط.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:18px">
+            <sc-for list="{{ colleges }}" as="c" hint-placeholder-count="5">
+              <div style="text-align:right;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-top:3px solid {{ c.color }};border-radius:16px;padding:28px;color:#fff;display:flex;flex-direction:column;gap:16px;font-family:Cairo,sans-serif">
+                <div style="display:flex;align-items:flex-start;gap:14px;width:100%">
+                  <span style="flex:none;width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:{{ c.color }};color:#16272f;order:2">
+                    {{ c.icon }}
+                  </span>
+                  <span style="flex:1;font-family:Tajawal,sans-serif;font-weight:700;font-size:24px;line-height:1.3">{{ c.name }}</span>
+                  <sc-if value="{{ c.badge }}" hint-placeholder-val="{{ true }}">
+                    <span style="flex:none;order:1;font-size:13px;font-weight:700;border-radius:999px;padding:5px 11px;background:{{ c.badgeBg }};color:{{ c.badgeFg }}">{{ c.badge }}</span>
+                  </sc-if>
+                </div>
+                <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.6)">{{ c.desc }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:30px;line-height:1.3;color:#fff">المستويات الأربعة</h2>
+            <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.58)">أسماء الدرجات الجامعية تُستعمل كما هي: كل مستوى يُجتاز باختبار وإشراف معلم.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:18px">
+            <sc-for list="{{ levelCards }}" as="l" hint-placeholder-count="4">
+              <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:16px">
+                <span style="align-self:flex-start;display:flex;align-items:center;gap:9px;border-radius:999px;padding:8px 16px;background:{{ l.bg }};color:{{ l.fg }};font-size:16px;font-weight:700">
+                  <span style="width:22px;height:22px;border-radius:50%;background:rgba(22,39,47,.18);display:flex;align-items:center;justify-content:center;font-size:13px">{{ l.n }}</span>
+                  {{ l.label }}
+                </span>
+                <p style="margin:0;font-size:15px;line-height:1.7;color:rgba(255,255,255,.65)">{{ l.note }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+
+    <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+      <section style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;min-height:560px;padding:56px 0">
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <img src="assets/logo-wordmark.png" alt="جامعة طور" style="height:64px;width:auto;display:block;align-self:flex-start">
+          <h1 style="margin:0;font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15;color:#fff">تسجيل الدخول</h1>
+          <p style="margin:0;font-size:18px;font-weight:400;line-height:1.6;color:rgba(255,255,255,.66);max-width:440px">ادخل ببياناتك لتتابع مستواك في كليتك، أو لتدير تحضير اللقاءات إن كنت مشرفًا.</p>
+          <div style="display:flex;align-items:flex-end;gap:12px;margin-top:8px">
+            <span style="width:44px;height:52px;border-radius:12px;background:rgba(255,255,255,.22)"></span>
+            <span style="width:44px;height:86px;border-radius:12px;background:#4eb9b6"></span>
+            <span style="width:44px;height:120px;border-radius:12px;background:#facb62"></span>
+            <span style="width:44px;height:154px;border-radius:12px;background:#ee7c7d"></span>
+          </div>
+        </div>
+
+        <form onSubmit="{{ onLogin }}" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:30px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,.7)">الدخول كـ</span>
+            <div style="display:flex;gap:8px">
+              <button type="button" onClick="{{ pickStudent }}" style="flex:1;background:{{ loginStuBg }};color:{{ loginStuFg }};border:1px solid {{ loginStuBorder }};border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">طالب</button>
+              <button type="button" onClick="{{ pickSupervisor }}" style="flex:1;background:{{ loginSupBg }};color:{{ loginSupFg }};border:1px solid {{ loginSupBorder }};border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">مشرف</button>
+            </div>
+          </div>
+
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,.7)">{{ idLabel }}</span>
+            <input value="{{ userId }}" onChange="{{ onUserId }}" placeholder="مثال: 1447-0231" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:13px 14px;font-size:16px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+          </label>
+
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,.7)">كلمة المرور</span>
+            <input type="password" value="{{ pass }}" onChange="{{ onPass }}" placeholder="••••••••" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:13px 14px;font-size:16px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+          </label>
+
+          <sc-if value="{{ loginError }}" hint-placeholder-val="{{ true }}">
+            <span style="font-size:14px;font-weight:500;color:#f6adae;background:rgba(238,124,125,.14);border:1px solid rgba(238,124,125,.35);border-radius:10px;padding:11px 14px">{{ loginError }}</span>
+          </sc-if>
+
+          <button type="submit" style="background:#4eb9b6;color:#fff;border:0;border-radius:999px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:#63c4c1">دخول</button>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <button type="button" onClick="{{ goHome }}" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(255,255,255,.1)">رجوع للصفحة الرئيسية</button>
+            <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,.45)">نسيت كلمة المرور؟</span>
+          </div>
+        </form>
+      </section>
+    </sc-if>
+
+
+    <sc-if value="{{ isDash }}" hint-placeholder-val="{{ true }}">
+      <section style="display:flex;flex-direction:column;gap:30px;padding-top:34px">
+
+        <div style="position:relative;overflow:hidden;border-radius:20px;padding:22px 26px;background:transparent;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+          <div style="position:absolute;top:-70px;right:-50px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(250,203,98,.3),transparent 70%);pointer-events:none"></div>
+          <div style="position:relative;display:flex;flex-direction:column;gap:14px;max-width:760px">
+            <span style="align-self:flex-start;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;border-radius:999px;padding:6px 14px;background:rgba(250,203,98,.2);color:#facb62"><span style="width:8px;height:8px;border-radius:50%;background:#facb62"></span>{{ bannerType }}</span>
+            <p style="margin:0;font-family:Tajawal,sans-serif;font-weight:800;font-size:24px;line-height:1.5;color:#fff;text-wrap:pretty">{{ bannerText }}</p>
+          </div>
+          <sc-if value="{{ hasQuotes }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ nextQuote }}" style="position:relative;flex:none;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:12px 24px;font-size:14px;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(255,255,255,.2)">عبارة أخرى ↻</button>
+          </sc-if>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:stretch">
+          <div style="background:linear-gradient(140deg,#f4938f,#cf5a63);border-radius:18px;padding:24px;color:#fff;box-shadow:0 14px 34px rgba(238,124,125,.24);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+            <div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:10px">
+              <h1 style="margin:0;font-family:Tajawal,sans-serif;font-weight:800;font-size:34px;line-height:1.15;color:#fff">أهلًا، {{ studentName }}</h1>
+              <p style="margin:0;font-size:15px;font-weight:400;line-height:1.6;color:rgba(255,255,255,.8)">أنت في {{ myCollegeName }}، ومستواك الحالي {{ myLevelLabel }}. هذه لوحة إنجازك: تابع نسبك وارفعها وحدة بعد وحدة.</p>
+            </div>
+            <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:8px">
+              <div style="position:relative;overflow:hidden;width:128px;height:128px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(250,203,98,.16),rgba(250,203,98,.03)),#1e3540;border:2px solid rgba(250,203,98,.4);box-shadow:0 0 22px rgba(250,203,98,.25)">
+                <img src="assets/chevron-mark.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:108px;height:auto;opacity:.24;pointer-events:none">
+                <span style="position:relative;z-index:1;font-family:Tajawal,sans-serif;font-weight:900;font-size:26px;letter-spacing:.5px;color:#fff">{{ myLevelLabel }}</span>
+              </div>
+              <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.9)">مستواك الحالي</span>
+            </div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(250,203,98,.16),rgba(250,203,98,.03));border:1px solid rgba(250,203,98,.4);border-radius:18px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+            <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:16px;color:#facb62">إنجاز اليوم</span>
+            <div style="position:relative;width:130px;height:130px">
+              <div style="position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(circle,rgba(250,203,98,.35),transparent 68%);filter:blur(6px);pointer-events:none;animation:goldGlow 2.2s ease-in-out infinite"></div>
+              <svg viewBox="0 0 170 170" width="130" height="130" style="position:relative;transform:rotate(-90deg)">
+                <circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="14"></circle>
+                <circle cx="85" cy="85" r="72" fill="none" stroke="#facb62" stroke-width="14" stroke-linecap="round" stroke-dasharray="{{ dailyDash }}" style="filter:drop-shadow(0 0 5px rgba(250,203,98,.85))"></circle>
+              </svg>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                <span style="font-family:Tajawal,sans-serif;font-weight:800;font-size:34px;color:#facb62">{{ dailyPctAr }}٪</span>
+              </div>
+            </div>
+            <span style="font-size:13px;color:rgba(255,255,255,.6)">{{ dailyDoneAr }} من {{ dailyTotalAr }} مهمة مُنجزة</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;border-radius:999px;padding:6px 14px;background:rgba(250,203,98,.22);color:#facb62;border:1px solid rgba(250,203,98,.45)">🔥 {{ taskStreakAr }} يوم متتالي</span>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+          <div style="background:linear-gradient(140deg,#5cc7c3,#1f5f5c);border-radius:14px;padding:16px;color:#fff;box-shadow:0 14px 34px rgba(78,185,182,.26);display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-size:15px;font-weight:700;color:#fff">حضور الأسبوع</span>
+              <span style="display:flex;align-items:center;gap:7px;font-size:17px;font-weight:800;border-radius:999px;padding:7px 15px;background:rgba(255,255,255,.2);color:#fff">🔥 {{ attendDaysAr }} أيام</span>
+            </div>
+            <div style="flex:1;display:flex;align-items:flex-end;justify-content:space-between;gap:6px;min-height:90px">
+              <sc-for list="{{ weekBars }}" as="w" hint-placeholder-count="5">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px">
+                  <span style="font-size:11px;font-weight:700;color:#fff">{{ w.pctAr }}٪</span>
+                  <div style="width:100%;max-width:22px;height:80px;border-radius:6px;background:rgba(255,255,255,.25);display:flex;align-items:flex-end;overflow:hidden">
+                    <div style="width:100%;height:{{ w.pct }}%;border-radius:6px;background:#fff"></div>
+                  </div>
+                  <span style="font-size:11px;color:rgba(255,255,255,.85)">{{ w.day }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#facb62;border-radius:14px;padding:18px;color:#1e3540;box-shadow:0 14px 34px rgba(250,203,98,.22);display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:15px;font-weight:700;color:#1e3540">نسب الإنجاز في كليتيك</div>
+            <sc-for list="{{ myColleges }}" as="c" hint-placeholder-count="2">
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="display:flex;justify-content:space-between;font-size:12px">
+                  <span style="font-weight:700;color:#1e3540">{{ c.name }}</span>
+                  <span style="color:rgba(30,53,64,.7)">{{ c.ratio }}</span>
+                </div>
+                <div style="height:7px;border-radius:999px;background:rgba(30,53,64,.2);overflow:hidden">
+                  <div style="height:100%;border-radius:999px;width:{{ c.pct }}%;background:#1e3540"></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;order:1">
+        <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(78,185,182,.16),rgba(78,185,182,.04));border:1px solid rgba(78,185,182,.35);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center">
+            <div style="display:flex;flex-direction:column;gap:2px;align-items:center">
+              <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:18px;color:#fff">مؤقّت المذاكرة</span>
+              <span style="font-size:13px;color:rgba(255,255,255,.55)">ركّز، وخلّك على الوقت</span>
+            </div>
+            <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:64px;line-height:1;color:#fff;letter-spacing:2px">{{ timerLabel }}</div>
+            <div style="width:100%;max-width:280px;height:8px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden">
+              <div style="height:100%;border-radius:999px;width:{{ timerPct }}%;background:linear-gradient(90deg,#4eb9b6,#facb62)"></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <sc-for list="{{ timerPresets }}" as="p" hint-placeholder-count="3">
+                <button onClick="{{ p.onPick }}" style="background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.border }};border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ p.label }}</button>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px">
+              <button onClick="{{ onTimerToggle }}" style="background:linear-gradient(135deg,#4eb9b6,#3aa6a3);color:#0e2026;border:0;border-radius:999px;padding:12px 30px;font-size:15px;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;box-shadow:0 8px 20px rgba(78,185,182,.3)" style-hover="filter:brightness(1.08)">{{ timerToggleLabel }}</button>
+              <button onClick="{{ onTimerReset }}" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:12px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(255,255,255,.1)">تصفير</button>
+            </div>
+          </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:20px;color:#fff">مهامي اليومية</h2>
+              <span style="font-size:13px;color:rgba(255,255,255,.55)">أضف مهامك اليومية وعلّم إنجازها</span>
+            </div>
+            <form onSubmit="{{ onAddDaily }}" style="display:flex;gap:10px">
+              <input value="{{ newDaily }}" onChange="{{ onNewDaily }}" placeholder="مهمة يومية، مثال: أذكار الصباح" style="flex:1;min-width:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;font-size:15px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+              <button type="submit" style="background:#4eb9b6;color:#0e2026;border:0;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif" style-hover="filter:brightness(1.08)">إضافة</button>
+            </form>
+            <sc-if value="{{ hasDaily }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ dailyRows }}" as="t" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 14px">
+                    <span style="flex:1;font-size:15px;font-weight:600;color:#fff">{{ t.text }}</span>
+                    <div style="flex:none;display:flex;align-items:center;gap:6px">
+                      <button onClick="{{ t.onDone }}" title="أنجزتها" style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;cursor:pointer;background:{{ t.doneBg }};color:{{ t.doneFg }};border:1px solid {{ t.doneBorder }};font-family:Tajawal,sans-serif">✓</button>
+                      <button onClick="{{ t.onNot }}" title="لم أنجزها" style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;cursor:pointer;background:{{ t.notBg }};color:{{ t.notFg }};border:1px solid {{ t.notBorder }};font-family:Tajawal,sans-serif">✕</button>
+                      <button onClick="{{ t.onRemove }}" title="حذف" style="flex:none;background:rgba(238,124,125,.12);color:#ee7c7d;border:1px solid rgba(238,124,125,.3);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(238,124,125,.22)">حذف</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noDaily }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;font-size:14px;color:rgba(255,255,255,.5)">لا مهام يومية بعد — أضف أول مهمة من الحقل أعلاه.</p>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="order:0;background:linear-gradient(135deg,rgba(250,203,98,.14),rgba(250,203,98,.04));border:1px solid rgba(250,203,98,.42);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px;box-shadow:0 14px 34px rgba(250,203,98,.14)">
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:22px;color:#fff">مهام كليّاتك</h2>
+            <span style="font-size:13px;color:rgba(255,255,255,.6)">تابع وحدات مستواك في كليتك والكلية الاختيارية</span>
+          </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:19px;color:#fff">وحدات مستواك الحالي — {{ myLevelLabel }}</h2>
+              <span style="font-size:13px;color:rgba(255,255,255,.55)">في {{ myCollegeName }}</span>
+            </div>
+            <span style="font-size:13px;font-weight:700;border-radius:999px;padding:6px 14px;background:rgba(250,203,98,.18);color:#facb62">{{ myOpenUnits }} وحدات متبقية</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ myUnits }}" as="u" hint-placeholder-count="4">
+              <div style="position:relative;overflow:hidden;background:{{ u.cardBg }};border:1px solid {{ u.cardBorder }};border-radius:14px;padding:13px 15px;display:flex;flex-direction:column;gap:10px;box-shadow:{{ u.glow }};transition:transform .15s ease,box-shadow .15s ease" style-hover="transform:translateY(-3px)">
+                <div style="position:absolute;top:-32px;left:-24px;width:120px;height:120px;border-radius:50%;background:{{ u.blob }};filter:blur(18px);pointer-events:none"></div>
+                <div style="position:relative;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                  <span style="flex:none;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;font-size:17px;font-weight:800;background:{{ u.medalBg }};color:{{ u.medalFg }};box-shadow:0 5px 12px rgba(0,0,0,.28)">{{ u.medalGlyph }}</span>
+                  <div style="flex:1;display:flex;flex-direction:column;gap:5px;min-width:120px">
+                    <span style="font-size:15px;font-weight:700;line-height:1.4;color:#fff;font-family:Tajawal,sans-serif">{{ u.title }}</span>
+                    <span style="align-self:flex-start;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;background:{{ u.statusBg }};color:{{ u.statusFg }}">
+                      <span style="width:7px;height:7px;border-radius:50%;background:{{ u.accent }}"></span>
+                      {{ u.statusLabel }}
+                    </span>
+                  </div>
+                  <sc-if value="{{ u.hasAction }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ u.onAction }}" style="flex:none;background:{{ u.actionBg }};color:{{ u.actionFg }};border:1px solid {{ u.actionBorder }};border-radius:999px;padding:8px 15px;font-size:13px;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;box-shadow:0 5px 12px rgba(0,0,0,.2)" style-hover="filter:brightness(1.1)">{{ u.actionLabel }}</button>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ u.showNote }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:relative;display:flex;align-items:flex-start;gap:8px;background:rgba(238,124,125,.12);border:1px solid rgba(238,124,125,.3);border-radius:12px;padding:9px 12px">
+                    <span style="flex:none;font-size:12px;font-weight:700;color:#ee7c7d">ملاحظة المشرف:</span>
+                    <span style="flex:1;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85)">{{ u.note }}</span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:19px;color:#fff">مهام الكلية الاختيارية — {{ optLevelLabel }}</h2>
+              <span style="font-size:13px;color:rgba(255,255,255,.55)">في {{ optCollegeName }}</span>
+            </div>
+            <span style="flex:none;font-size:13px;font-weight:700;border-radius:999px;padding:6px 14px;background:rgba(250,203,98,.18);color:#facb62">{{ optOpenUnits }} وحدات متبقية</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ myOptionalUnits }}" as="u" hint-placeholder-count="4">
+              <div style="position:relative;overflow:hidden;background:{{ u.cardBg }};border:1px solid {{ u.cardBorder }};border-radius:14px;padding:13px 15px;display:flex;flex-direction:column;gap:10px;box-shadow:{{ u.glow }};transition:transform .15s ease,box-shadow .15s ease" style-hover="transform:translateY(-3px)">
+                <div style="position:absolute;top:-32px;left:-24px;width:120px;height:120px;border-radius:50%;background:{{ u.blob }};filter:blur(18px);pointer-events:none"></div>
+                <div style="position:relative;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                  <span style="flex:none;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;font-size:17px;font-weight:800;background:{{ u.medalBg }};color:{{ u.medalFg }};box-shadow:0 5px 12px rgba(0,0,0,.28)">{{ u.medalGlyph }}</span>
+                  <div style="flex:1;display:flex;flex-direction:column;gap:5px;min-width:120px">
+                    <span style="font-size:15px;font-weight:700;line-height:1.4;color:#fff;font-family:Tajawal,sans-serif">{{ u.title }}</span>
+                    <span style="align-self:flex-start;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;background:{{ u.statusBg }};color:{{ u.statusFg }}">
+                      <span style="width:7px;height:7px;border-radius:50%;background:{{ u.accent }}"></span>
+                      {{ u.statusLabel }}
+                    </span>
+                  </div>
+                  <sc-if value="{{ u.hasAction }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ u.onAction }}" style="flex:none;background:{{ u.actionBg }};color:{{ u.actionFg }};border:1px solid {{ u.actionBorder }};border-radius:999px;padding:8px 15px;font-size:13px;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;box-shadow:0 5px 12px rgba(0,0,0,.2)" style-hover="filter:brightness(1.1)">{{ u.actionLabel }}</button>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ u.showNote }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:relative;display:flex;align-items:flex-start;gap:8px;background:rgba(238,124,125,.12);border:1px solid rgba(238,124,125,.3);border-radius:12px;padding:9px 12px">
+                    <span style="flex:none;font-size:12px;font-weight:700;color:#ee7c7d">ملاحظة المشرف:</span>
+                    <span style="flex:1;font-size:13px;line-height:1.6;color:rgba(255,255,255,.85)">{{ u.note }}</span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </div>
+        </div>
+
+        <div style="background:rgba(250,203,98,.08);border:1px solid rgba(250,203,98,.28);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:18px;order:2">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:22px;color:#fff">المهمات السرية</h2>
+              <span style="font-size:12px;font-weight:700;border-radius:999px;padding:5px 12px;background:rgba(250,203,98,.2);color:#facb62">عدد محدود</span>
+            </div>
+            <span style="font-size:13px;color:rgba(255,255,255,.55)">مهام محدودة — العدد الذي يحدده المشرف ينجزها، ثم تختفي</span>
+          </div>
+          <sc-if value="{{ hasSecret }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ secretRows }}" as="t" hint-placeholder-count="2">
+                <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(250,203,98,.2),rgba(238,124,125,.08));border:1px solid rgba(250,203,98,.4);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:16px;box-shadow:0 12px 30px rgba(250,203,98,.16);transition:transform .15s ease" style-hover="transform:translateY(-3px)">
+                  <div style="position:absolute;top:-40px;right:-30px;width:150px;height:150px;border-radius:50%;background:rgba(250,203,98,.22);filter:blur(24px);pointer-events:none"></div>
+                  <span style="position:relative;flex:none;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#facb62,#e0a63f);color:#1e3540;font-size:22px;box-shadow:0 8px 18px rgba(250,203,98,.4)">★</span>
+                  <div style="position:relative;flex:1;display:flex;flex-direction:column;gap:5px;min-width:0">
+                    <span style="font-size:17px;font-weight:700;color:#fff;font-family:Tajawal,sans-serif">{{ t.title }}</span>
+                    <span style="align-self:flex-start;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800;border-radius:999px;padding:5px 13px;background:rgba(30,53,64,.35);color:{{ t.slotFg }}">
+                      <span style="width:8px;height:8px;border-radius:50%;background:{{ t.slotFg }}"></span>
+                      {{ t.slotLabel }}
+                    </span>
+                  </div>
+                  <sc-if value="{{ t.canClaim }}" hint-placeholder-val="{{ true }}">
+                    <button onClick="{{ t.onClaim }}" style="position:relative;flex:none;background:linear-gradient(135deg,#facb62,#f0b843);color:#1e3540;border:0;border-radius:999px;padding:12px 24px;font-size:15px;font-weight:800;cursor:pointer;font-family:Cairo,sans-serif;box-shadow:0 8px 20px rgba(250,203,98,.35)" style-hover="filter:brightness(1.08)">أنجزتها</button>
+                  </sc-if>
+                  <sc-if value="{{ t.claimed }}" hint-placeholder-val="{{ false }}">
+                    <span style="position:relative;flex:none;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;border-radius:999px;padding:10px 18px;background:linear-gradient(135deg,#4eb9b6,#2a7d7a);color:#0e2026;box-shadow:0 8px 18px rgba(78,185,182,.3)">حصلتها ✓ — ترتيبك {{ t.position }}</span>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noSecret }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;font-size:14px;color:rgba(255,255,255,.5)">لا مهمات سرية متاحة الآن — تابع، قد تظهر مهمة في أي وقت.</p>
+          </sc-if>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isColleges }}" hint-placeholder-val="{{ true }}">
+      <section style="display:flex;flex-direction:column;gap:26px;padding-top:48px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <h1 style="margin:0;font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15;color:#fff">الكليات</h1>
+          <p style="margin:0;font-size:16px;color:rgba(255,255,255,.6)">اختر الكلية، ثم المستوى، لتظهر وحدات المستوى وحالتها.</p>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <sc-for list="{{ colleges }}" as="c" hint-placeholder-count="5">
+            <button onClick="{{ c.onOpen }}" style="background:{{ c.chipBg }};color:{{ c.chipFg }};border:1px solid {{ c.chipBorder }};border-radius:999px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ c.name }}</button>
+          </sc-for>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden">
+          <div style="padding:26px 28px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:flex-end;justify-content:space-between;gap:20px;background:rgba(255,255,255,.04)">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:700;color:{{ active.color }}">كلية</span>
+              <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:30px;line-height:1.3;color:#fff">{{ active.name }}</h2>
+              <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.6)">{{ active.desc }}</p>
+            </div>
+            <span style="flex:none;font-size:14px;font-weight:700;border-radius:999px;padding:8px 16px;background:{{ active.tagBg }};color:{{ active.tagFg }}">{{ active.tag }}</span>
+          </div>
+
+          <div style="display:flex;gap:6px;padding:16px 28px 0">
+            <sc-for list="{{ levelTabs }}" as="l" hint-placeholder-count="4">
+              <button onClick="{{ l.onPick }}" style="background:{{ l.bg }};color:{{ l.fg }};border:1px solid {{ l.border }};border-radius:9px 9px 0 0;border-bottom:0;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ l.label }}</button>
+            </sc-for>
+          </div>
+
+          <div style="padding:0 28px 28px">
+            <div style="display:flex;flex-direction:column;gap:10px;padding-top:4px">
+              <sc-for list="{{ units }}" as="u" hint-placeholder-count="4">
+                <div style="position:relative;overflow:hidden;background:{{ u.cardBg }};border:1px solid {{ u.cardBorder }};border-radius:16px;padding:15px 18px;display:flex;align-items:center;gap:16px;box-shadow:{{ u.glow }};opacity:{{ u.op }};transition:transform .15s ease" style-hover="transform:translateY(-2px)">
+                  <div style="position:absolute;top:-40px;left:-30px;width:140px;height:140px;border-radius:50%;background:{{ u.blob }};filter:blur(22px);pointer-events:none"></div>
+                  <span style="position:relative;flex:none;width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;font-size:19px;font-weight:800;background:{{ u.medalBg }};color:{{ u.medalFg }};box-shadow:0 6px 14px rgba(0,0,0,.28)">{{ u.medalGlyph }}</span>
+                  <span style="position:relative;flex:1;font-size:16px;font-weight:600;color:#fff">{{ u.title }}</span>
+                  <span style="position:relative;flex:none;display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;border-radius:999px;padding:6px 14px;background:{{ u.stateBg }};color:{{ u.stateFg }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ u.stateFg }}"></span>{{ u.state }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ true }}">
+      <section style="display:flex;flex-direction:column;gap:30px;padding-top:48px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <h1 style="margin:0;font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15;color:#fff">الخطة</h1>
+          <p style="margin:0;font-size:16px;color:rgba(255,255,255,.6)">أربعة مستويات في كل كلية، يصعد فيها الطالب مستوى بعد مستوى.</p>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:20px 1fr;gap:22px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <span style="width:18px;height:18px;border-radius:50%;flex:none;background:{{ s.dot }}"></span>
+                <span style="flex:1;width:2px;background:rgba(255,255,255,.14)"></span>
+              </div>
+              <div style="padding-bottom:26px;display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <h3 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:24px;line-height:1.3;color:#fff">{{ s.n }}</h3>
+                  <span style="font-size:13px;font-weight:700;border-radius:999px;padding:4px 12px;background:{{ s.tagBg }};color:{{ s.tagFg }}">{{ s.tag }}</span>
+                </div>
+                <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.62);max-width:620px">{{ s.focus }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isAtt }}" hint-placeholder-val="{{ true }}">
+      <section style="display:flex;flex-direction:column;gap:24px;padding-top:48px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <h1 style="margin:0;font-family:Tajawal,sans-serif;font-weight:800;font-size:38px;line-height:1.15;color:#fff">التحضير</h1>
+            <p style="margin:0;font-size:16px;color:rgba(255,255,255,.6)">الأسبوع {{ weekAr }} من {{ weekCountAr }} — {{ active.name }} · مستوى {{ activeLevelLabel }}</p>
+          </div>
+          <div style="display:flex;gap:12px">
+            <div style="background:rgba(78,185,182,.16);border:1px solid rgba(78,185,182,.4);border-radius:12px;padding:12px 18px;text-align:center">
+              <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:24px;color:#4eb9b6">{{ countPresent }}</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.65)">حاضر</div>
+            </div>
+            <div style="background:rgba(250,203,98,.16);border:1px solid rgba(250,203,98,.4);border-radius:12px;padding:12px 18px;text-align:center">
+              <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:24px;color:#facb62">{{ countLate }}</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.65)">متأخر</div>
+            </div>
+            <div style="background:rgba(238,124,125,.16);border:1px solid rgba(238,124,125,.4);border-radius:12px;padding:12px 18px;text-align:center">
+              <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:24px;color:#ee7c7d">{{ countAbsent }}</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.65)">غائب</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:18px;color:#fff">الأسبوع {{ weekAr }} <span style="color:rgba(255,255,255,.45);font-weight:500">من {{ weekCountAr }}</span></span>
+            <label style="display:flex;align-items:center;gap:10px">
+              <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,.7)">عدد الأسابيع</span>
+              <input type="number" min="1" max="52" value="{{ weekCountVal }}" onChange="{{ onWeekCount }}" style="width:76px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:9px 12px;font-size:15px;font-weight:700;color:#fff;font-family:Cairo,sans-serif;outline:none;text-align:center">
+            </label>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ weeks }}" as="w" hint-placeholder-count="12">
+              <button onClick="{{ w.onPick }}" style="min-width:42px;background:{{ w.bg }};color:{{ w.fg }};border:1px solid {{ w.border }};border-radius:10px;padding:9px 12px;font-size:15px;font-weight:700;cursor:pointer;font-family:Tajawal,sans-serif" style-hover="filter:brightness(1.08)">{{ w.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ noOpenStudent }}" hint-placeholder-val="{{ true }}">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden">
+            <sc-for list="{{ students }}" as="s" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:16px;padding:14px 22px;border-bottom:1px solid rgba(255,255,255,.08)">
+                <span style="flex:none;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;font-weight:700;font-size:16px;color:rgba(255,255,255,.8)">{{ s.initial }}</span>
+                <button onClick="{{ s.onOpen }}" style="flex:1;text-align:right;background:transparent;border:0;padding:0;font-size:16px;font-weight:600;color:#4eb9b6;cursor:pointer;font-family:Cairo,sans-serif;display:flex;align-items:center;gap:8px" style-hover="color:#63c4c1">{{ s.name }}<span style="font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.55)">{{ s.progCount }} برنامج</span></button>
+                <span style="flex:none;font-size:13px;font-weight:700;border-radius:999px;padding:6px 14px;background:{{ s.pctBg }};color:{{ s.pctFg }}">حضور {{ s.pctAr }}٪</span>
+                <span style="flex:none;font-size:12px;color:rgba(255,255,255,.5)">غياب {{ s.absentAr }}</span>
+                <button onClick="{{ s.onOpen }}" style="flex:none;background:rgba(78,185,182,.15);color:#4eb9b6;border:1px solid rgba(78,185,182,.35);border-radius:999px;padding:8px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(78,185,182,.25)">التحضير</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStudentOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden">
+            <div style="padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(255,255,255,.04)">
+              <div style="display:flex;align-items:center;gap:14px">
+                <span style="flex:none;width:44px;height:44px;border-radius:12px;background:rgba(78,185,182,.18);color:#4eb9b6;display:flex;align-items:center;justify-content:center;font-family:Tajawal,sans-serif;font-weight:700;font-size:18px">{{ openInitial }}</span>
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:22px;color:#fff">{{ openStudent }}</span>
+                  <span style="font-size:13px;color:rgba(255,255,255,.55)">تحضير البرامج — {{ progCountLabel }} برنامج</span>
+                </div>
+              </div>
+              <button onClick="{{ closeStudent }}" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(255,255,255,.1)">رجوع للقائمة</button>
+            </div>
+
+            <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,.7)">ملاحظات عامة عن الطالب</span>
+              <textarea value="{{ studentNote }}" onChange="{{ onStudentNote }}" placeholder="اكتب ملاحظاتك العامة عن الطالب — تبقى محفوظة عند المشرف" style="width:100%;resize:vertical;min-height:66px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;font-size:15px;line-height:1.6;color:#fff;font-family:Cairo,sans-serif;outline:none"></textarea>
+            </div>
+
+            <form onSubmit="{{ onAddProgram }}" style="display:flex;gap:10px;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08)">
+              <input value="{{ newProgram }}" onChange="{{ onNewProgram }}" placeholder="اكتب اسم البرنامج، مثال: حلقة القرآن" style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;font-size:15px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+              <button type="submit" style="background:#facb62;color:#1e3540;border:0;border-radius:999px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:#f0b843">إضافة برنامج</button>
+            </form>
+
+            <sc-if value="{{ hasPrograms }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ programRows }}" as="p" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:16px;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  <span style="flex:1;font-size:16px;font-weight:600">{{ p.name }}</span>
+                  <div style="display:flex;gap:6px">
+                    <button onClick="{{ p.onPresent }}" style="background:{{ p.pBg }};color:{{ p.pFg }};border:1px solid {{ p.pBorder }};border-radius:999px;padding:8px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">حاضر</button>
+                    <button onClick="{{ p.onLate }}" style="background:{{ p.lBg }};color:{{ p.lFg }};border:1px solid {{ p.lBorder }};border-radius:999px;padding:8px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">متأخر</button>
+                    <button onClick="{{ p.onAbsent }}" style="background:{{ p.aBg }};color:{{ p.aFg }};border:1px solid {{ p.aBorder }};border-radius:999px;padding:8px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">غائب</button>
+                  </div>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ noPrograms }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;padding:26px 24px;font-size:14px;color:rgba(255,255,255,.5)">لا برامج بعد — اكتب اسم البرنامج في الحقل أعلاه وأضفه.</p>
+            </sc-if>
+
+            <div style="padding:20px 24px;border-top:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:20px;color:#fff">متابعة المهام</span>
+                  <span style="font-size:13px;color:rgba(255,255,255,.55)">اختر الكلية والمرحلة، وعلّم ما أنجزه الطالب</span>
+                </div>
+                <span style="flex:none;font-size:13px;font-weight:700;border-radius:999px;padding:6px 14px;background:rgba(78,185,182,.18);color:#4eb9b6">{{ followDone }}/{{ followTotal }} · {{ followPctAr }}٪</span>
+              </div>
+
+              <div style="height:8px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden">
+                <div style="height:100%;border-radius:999px;width:{{ followPct }}%;background:#4eb9b6"></div>
+              </div>
+
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ followColleges }}" as="c" hint-placeholder-count="5">
+                  <button onClick="{{ c.onPick }}" style="background:{{ c.chipBg }};color:{{ c.chipFg }};border:1px solid {{ c.chipBorder }};border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ c.name }}</button>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <sc-for list="{{ followLevelTabs }}" as="l" hint-placeholder-count="4">
+                  <button onClick="{{ l.onPick }}" style="background:{{ l.bg }};color:{{ l.fg }};border:1px solid {{ l.border }};border-radius:9px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ l.label }}</button>
+                </sc-for>
+              </div>
+
+              <sc-if value="{{ hasFollow }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ followRows }}" as="t" hint-placeholder-count="4">
+                    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:10px">
+                      <div style="display:flex;align-items:center;gap:14px">
+                        <span style="flex:none;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)">{{ t.n }}</span>
+                        <span style="flex:1;font-size:15px;font-weight:600;color:#fff">{{ t.title }}</span>
+                        <span style="flex:none;font-size:12px;font-weight:700;border-radius:999px;padding:5px 12px;background:{{ t.statusBg }};color:{{ t.statusFg }}">{{ t.statusLabel }}</span>
+                        <div style="flex:none;display:flex;gap:6px">
+                          <button onClick="{{ t.onApprove }}" title="اعتماد" style="width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;cursor:pointer;background:{{ t.approveBg }};color:{{ t.approveFg }};border:1px solid {{ t.approveBorder }};font-family:Tajawal,sans-serif">✓</button>
+                          <button onClick="{{ t.onReject }}" title="إعادة" style="width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;cursor:pointer;background:{{ t.rejectBg }};color:{{ t.rejectFg }};border:1px solid {{ t.rejectBorder }};font-family:Tajawal,sans-serif">✕</button>
+                        </div>
+                      </div>
+                      <input value="{{ t.note }}" onChange="{{ t.onNote }}" placeholder="ملاحظة المشرف على المهمة (تظهر للطالب)" style="width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px 14px;font-size:14px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ noFollow }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;padding:14px 0;font-size:14px;color:rgba(255,255,255,.5)">لا مهام لهذه المرحلة — أضفها من قسم "مهام المراحل".</p>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display:flex;flex-direction:column;gap:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px 22px">
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:18px;color:#fff">إجمالي كل الأسابيع</span>
+            <span style="font-size:13px;color:rgba(255,255,255,.55)">{{ totalScopeNote }}</span>
+          </div>
+          <sc-if value="{{ isStudentOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <div style="background:rgba(78,185,182,.16);border:1px solid rgba(78,185,182,.4);border-radius:12px;padding:10px 18px;text-align:center;min-width:96px">
+                <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:24px;color:#4eb9b6">{{ totalPctAr }}٪</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.65)">نسبة الحضور</div>
+              </div>
+              <div style="background:rgba(78,185,182,.16);border:1px solid rgba(78,185,182,.4);border-radius:12px;padding:10px 16px;text-align:center">
+                <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:22px;color:#4eb9b6">{{ totalPresent }}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.65)">حاضر</div>
+              </div>
+              <div style="background:rgba(250,203,98,.16);border:1px solid rgba(250,203,98,.4);border-radius:12px;padding:10px 16px;text-align:center">
+                <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:22px;color:#facb62">{{ totalLate }}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.65)">متأخر</div>
+              </div>
+              <div style="background:rgba(238,124,125,.16);border:1px solid rgba(238,124,125,.4);border-radius:12px;padding:10px 16px;text-align:center">
+                <div style="font-family:Tajawal,sans-serif;font-weight:800;font-size:22px;color:#ee7c7d">{{ totalAbsent }}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.65)">غائب</div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noOpenStudent }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:6px;max-height:360px;overflow:auto">
+              <div style="display:flex;align-items:center;gap:12px;padding:6px 12px;font-size:12px;font-weight:700;color:rgba(255,255,255,.5)">
+                <span style="flex:1">الطالب</span>
+                <span style="flex:none;width:66px;text-align:center">النسبة</span>
+                <span style="flex:none;width:44px;text-align:center">حاضر</span>
+                <span style="flex:none;width:44px;text-align:center">متأخر</span>
+                <span style="flex:none;width:44px;text-align:center">غائب</span>
+              </div>
+              <sc-for list="{{ students }}" as="s" hint-placeholder-count="6">
+                <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:9px 12px">
+                  <span style="flex:1;font-size:14px;font-weight:600;color:#fff">{{ s.name }}</span>
+                  <span style="flex:none;width:66px;text-align:center;font-size:13px;font-weight:700;border-radius:999px;padding:4px 0;background:{{ s.pctBg }};color:{{ s.pctFg }}">{{ s.pctAr }}٪</span>
+                  <span style="flex:none;width:44px;text-align:center;font-size:14px;font-weight:700;color:#4eb9b6">{{ s.presentAr }}</span>
+                  <span style="flex:none;width:44px;text-align:center;font-size:14px;font-weight:700;color:#facb62">{{ s.lateAr }}</span>
+                  <span style="flex:none;width:44px;text-align:center;font-size:14px;font-weight:700;color:#ee7c7d">{{ s.absentAr }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ noOpenStudent }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:30px;line-height:1.3;color:#fff">مهام المراحل</h2>
+            <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.58)">اختر الكلية والمرحلة، ثم أضف المهام التي تظهر لطلاب تلك المرحلة في خطة الكلية.</p>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-for list="{{ taskColleges }}" as="c" hint-placeholder-count="5">
+              <button onClick="{{ c.onPick }}" style="background:{{ c.chipBg }};color:{{ c.chipFg }};border:1px solid {{ c.chipBorder }};border-radius:999px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ c.name }}</button>
+            </sc-for>
+          </div>
+
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden">
+            <div style="display:flex;gap:6px;padding:16px 24px 0;flex-wrap:wrap">
+              <sc-for list="{{ taskLevelTabs }}" as="l" hint-placeholder-count="4">
+                <button onClick="{{ l.onPick }}" style="background:{{ l.bg }};color:{{ l.fg }};border:1px solid {{ l.border }};border-radius:9px 9px 0 0;border-bottom:0;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ l.label }}</button>
+              </sc-for>
+            </div>
+
+            <form onSubmit="{{ onAddTask }}" style="display:flex;gap:10px;padding:18px 24px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)">
+              <input value="{{ newTask }}" onChange="{{ onNewTask }}" placeholder="اكتب المهمة، مثال: حفظ سورة الملك" style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;font-size:15px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+              <button type="submit" style="background:#facb62;color:#1e3540;border:0;border-radius:999px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:#f0b843">إضافة مهمة</button>
+            </form>
+
+            <sc-if value="{{ hasTasks }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ taskRows }}" as="t" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:16px;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,.08)">
+                  <span style="flex:none;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)">{{ t.n }}</span>
+                  <span style="flex:1;font-size:16px;font-weight:400">{{ t.title }}</span>
+                  <button onClick="{{ t.onRemove }}" style="flex:none;background:rgba(238,124,125,.15);color:#ee7c7d;border:1px solid rgba(238,124,125,.35);border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(238,124,125,.25)">حذف</button>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ noTasks }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;padding:26px 24px;font-size:14px;color:rgba(255,255,255,.5)">لا مهام بعد لهذه المرحلة — أضف أول مهمة من الحقل أعلاه.</p>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:30px;line-height:1.3;color:#fff">المهمات السرية</h2>
+              <span style="font-size:12px;font-weight:700;border-radius:999px;padding:5px 12px;background:rgba(250,203,98,.2);color:#facb62">عدد محدود</span>
+            </div>
+            <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.58)">أضف مهمة تظهر لكل الطلاب — حدّد عدد المنجزين، فيحصلها أول من ينجزها بذلك العدد ثم تُحذف تلقائيًا.</p>
+          </div>
+
+          <form onSubmit="{{ onAddSecret }}" style="display:flex;gap:10px;flex-wrap:wrap">
+            <input value="{{ newSecret }}" onChange="{{ onNewSecret }}" placeholder="اكتب المهمة السرية، مثال: أول من يحفظ صفحة كاملة" style="flex:1;min-width:220px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;font-size:15px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+            <label style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:0 12px">
+              <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.6);white-space:nowrap">عدد المنجزين</span>
+              <input type="number" min="1" max="99" value="{{ newSecretCapVal }}" onChange="{{ onNewSecretCap }}" style="width:56px;background:transparent;border:0;padding:12px 0;font-size:15px;font-weight:700;color:#fff;font-family:Cairo,sans-serif;outline:none;text-align:center">
+            </label>
+            <button type="submit" style="background:#facb62;color:#1e3540;border:0;border-radius:999px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:#f0b843">إضافة مهمة سرية</button>
+          </form>
+
+          <sc-if value="{{ hasSecret }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ secretSupRows }}" as="t" hint-placeholder-count="2">
+                <div style="background:rgba(255,255,255,.06);border:1px solid rgba(250,203,98,.22);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:16px">
+                  <span style="flex:none;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(250,203,98,.18);color:#facb62;font-size:16px">★</span>
+                  <span style="flex:1;font-size:16px;font-weight:600;color:#fff">{{ t.title }}</span>
+                  <span style="flex:none;font-size:13px;font-weight:700;border-radius:999px;padding:6px 14px;background:rgba(250,203,98,.16);color:#facb62">{{ t.claimedCountAr }}/{{ t.capAr }} أنجزوها</span>
+                  <label style="flex:none;display:flex;align-items:center;gap:8px">
+                    <span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap">عدد المنجزين</span>
+                    <input type="number" min="1" max="99" value="{{ t.capVal }}" onChange="{{ t.onCap }}" style="width:56px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 10px;font-size:14px;font-weight:700;color:#fff;font-family:Cairo,sans-serif;outline:none;text-align:center">
+                  </label>
+                  <button onClick="{{ t.onRemove }}" style="flex:none;background:rgba(238,124,125,.15);color:#ee7c7d;border:1px solid rgba(238,124,125,.35);border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(238,124,125,.25)">حذف</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noSecret }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;font-size:14px;color:rgba(255,255,255,.5)">لا مهمات سرية حالية — أضف أول مهمة من الحقل أعلاه.</p>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <h2 style="margin:0;font-family:Tajawal,sans-serif;font-weight:700;font-size:30px;line-height:1.3;color:#fff">لوحة التحفيز</h2>
+            <p style="margin:0;font-size:16px;line-height:1.6;color:rgba(255,255,255,.58)">أضف عبارة أو بيت شعر أو حديثًا — تظهر للطلاب في بطاقة الحماس بأعلى لوحاتهم.</p>
+          </div>
+          <form onSubmit="{{ onAddQuote }}" style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <sc-for list="{{ quoteTypeChips }}" as="c" hint-placeholder-count="3">
+                <button type="button" onClick="{{ c.onPick }}" style="background:{{ c.bg }};color:{{ c.fg }};border:1px solid {{ c.border }};border-radius:999px;padding:8px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif">{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:10px">
+              <input value="{{ newQuote }}" onChange="{{ onNewQuote }}" placeholder="اكتب العبارة التحفيزية هنا..." style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;font-size:15px;color:#fff;font-family:Cairo,sans-serif;outline:none">
+              <button type="submit" style="background:#facb62;color:#1e3540;border:0;border-radius:999px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:#f0b843">إضافة</button>
+            </div>
+          </form>
+          <sc-if value="{{ hasQuotes }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ quoteList }}" as="q" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 16px">
+                  <span style="flex:none;font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;background:rgba(250,203,98,.16);color:#facb62">{{ q.type }}</span>
+                  <span style="flex:1;font-size:15px;line-height:1.6;color:rgba(255,255,255,.85)">{{ q.text }}</span>
+                  <button onClick="{{ q.onRemove }}" style="flex:none;background:rgba(238,124,125,.15);color:#ee7c7d;border:1px solid rgba(238,124,125,.35);border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif" style-hover="background:rgba(238,124,125,.25)">حذف</button>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noQuotes }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;font-size:14px;color:rgba(255,255,255,.5)">لا عبارات بعد — أضف أول عبارة وستظهر للطلاب.</p>
+          </sc-if>
+        </div>
+        </sc-if>
+
+      </section>
+    </sc-if>
+
+  </main>
+
+  <footer style="position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.1);background:rgba(26,46,56,.9);overflow:hidden">
+    <div style="position:relative;padding:44px 36px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <img src="assets/logo-wordmark.png" alt="جامعة طور" style="height:34px;width:auto;display:block;align-self:flex-start">
+        <p style="margin:0;font-size:14px;line-height:1.6;color:rgba(255,255,255,.55);max-width:340px">جامعة تعليمية تنافسية تتكوّن من عدة كليات، يتدرّج الطالب فيها عبر درجات أكاديمية: الدبلوم، البكالوريوس، الماجستير، والدكتوراه.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:20px;color:#fff">الكليات</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">كلية الشريعة</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">كلية السيرة والتاريخ</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">كلية القرآن وعلومه</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">كلية التقنية</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">كلية المهارات والقيادة</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:Tajawal,sans-serif;font-weight:700;font-size:20px;color:#fff">المستويات</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">دبلوم</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">بكالوريوس</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">ماجستير</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.55)">دكتوراه</span>
+      </div>
+    </div>
+    <div style="position:relative;border-top:1px solid rgba(255,255,255,.08);padding:18px 36px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <span style="font-size:13px;color:rgba(255,255,255,.45)">جامعة طور — جميع الحقوق محفوظة</span>
+      
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+/* Lucide icon names per college, as declared in the kit's data.js */
+const ICONS = { sharia:"BookMarked", seerah:"Landmark", quran:"BookOpen", tech:"Cpu", skills:"Users" };
+const COLLEGES = [
+  { id:"sharia", name:"كلية الشريعة", color:"#4eb9b6", passed:1, desc:"أصول الفقه والعبادات وأحكام المعاملات." },
+  { id:"seerah", name:"كلية السيرة والتاريخ", color:"#facb62", passed:2, desc:"السيرة النبوية وتاريخ الأمة ورجالها." },
+  { id:"quran", name:"كلية القرآن وعلومه", color:"#2a7d7a", passed:1, desc:"الحفظ والتجويد والتفسير وعلوم القرآن." },
+  { id:"tech", name:"كلية التقنية", color:"#5c7f8e", passed:0, desc:"البرمجة والتصميم والأمن الرقمي.", mine:true },
+  { id:"skills", name:"كلية المهارات والقيادة", color:"#f0b843", passed:0, desc:"القيادة والعمل الجماعي وإدارة المبادرات.", optional:true }
+];
+/* the student's own college */
+const LEVELS = [
+  { key:"diploma", label:"دبلوم", bg:"rgba(255,255,255,.14)", fg:"#fff", note:"يُفتح للجميع عند بداية الكلية." },
+  { key:"bachelor", label:"بكالوريوس", bg:"#4eb9b6", fg:"#fff", note:"يتطلب اجتياز الدبلوم في الكلية نفسها." },
+  { key:"master", label:"ماجستير", bg:"#facb62", fg:"#1e3540", note:"مسألة متخصصة داخل الكلية." },
+  { key:"phd", label:"دكتوراه", bg:"#ee7c7d", fg:"#fff", note:"مشروع تخرّج بإشراف معلم." }
+];
+const UNITS = {
+  diploma:["مدخل الكلية ومصطلحاتها","القواعد الأساسية","ورشة تطبيقية أولى","اختبار المستوى"],
+  bachelor:["التوسّع في الأصول","دراسة نصّ مختار","ورشة عملية","اختبار المستوى"],
+  master:["مسألة متخصصة","قراءة مرجع موسّع","بحث قصير بإشراف معلم","مناقشة البحث"],
+  phd:["تحديد موضوع التخرّج","خطة المشروع","تنفيذ المشروع","عرض التخرّج"]
+};
+const FOCUS = [
+  "مدخل الكلية ومصطلحاتها الأساسية.",
+  "التوسّع في الأصول وورشة عملية.",
+  "مسألة متخصصة وبحث قصير بإشراف معلم.",
+  "مشروع التخرّج بإشراف معلم."
+];
+const SUPERVISORS = [
+  { name:"أبو راجح",      id:"6001", pass:"1234" },
+  { name:"أبو عبدالله ف", id:"6002", pass:"1234" },
+  { name:"أبو عبدالله ق", id:"6003", pass:"1234" },
+  { name:"أبو عبدالرحمن", id:"6004", pass:"1234" },
+  { name:"أبو عمر",       id:"6005", pass:"1234" },
+  { name:"أبو عبدالعزيز", id:"6006", pass:"1234" },
+  { name:"أبو نواف",      id:"6007", pass:"1234" },
+  { name:"أبو حمد",       id:"6008", pass:"1234" }
+];
+const MINE = COLLEGES.filter(function(c){ return c.mine; })[0] || COLLEGES[0];
+const OPT = COLLEGES.filter(function(c){ return c.optional; })[0] || COLLEGES[COLLEGES.length - 1];
+const STUDENTS = [];
+const AR = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
+function ar(n){ return String(n).split("").map(function(d){ return AR[+d] || d; }).join(""); }
+
+class Component extends DCLogic {
+  state = { role:"student", screen:"home", collegeId:"tech", levelKey:"master", marks:{}, saved:false, week:1, weekCount:12,
+            loginRole:"student", userId:"", pass:"", loginError:"", supName:"", loggedName:"", loggedId:"",
+            openStudent:null, newProgram:"",
+            taskCollege:"sharia", taskLevel:"diploma", newTask:"", tasks:{},
+            followCollege:"sharia", followLevel:"diploma",
+            done:{ "5101|sharia|diploma|مدخل الكلية ومصطلحاتها":"approved", "5101|sharia|diploma|القواعد الأساسية":"approved", "5101|sharia|diploma|ورشة تطبيقية أولى":"pending", "5101|sharia|diploma|اختبار المستوى":"rejected", "5102|sharia|diploma|مدخل الكلية ومصطلحاتها":"approved" },
+            taskNotes:{ "5101|sharia|diploma|اختبار المستوى":"راجع الوحدة الثانية جيدًا قبل إعادة الاختبار.", "self|tech|master|بحث قصير بإشراف معلم":"وسّع قائمة المصادر إلى خمسة مراجع على الأقل." },
+            studentNotes:{ "5101":"طالب مجتهد؛ يحتاج متابعة في الحضور." },
+            secretTasks:[
+              { id:"s1", title:"أول من يرتّب مصلّى الحلقة قبل الأذان", cap:5, claimers:["5102","5104","5106"] },
+              { id:"s2", title:"ساعد طالبًا جديدًا طوال أسبوع كامل", cap:3, claimers:["5103"] }
+            ],
+            newSecret:"", newSecretCap:5,
+            quotes:[
+              { id:"q1", type:"عبارة", text:"من جدّ وجد، ومن زرع حصد." },
+              { id:"q2", type:"حديث", text:"إنما الأعمال بالنيّات." },
+              { id:"q3", type:"قصيدة", text:"ومَن يتهيّب صعودَ الجبال يعِشْ أبدَ الدهر بين الحُفَر." }
+            ],
+            newQuote:"", newQuoteType:"عبارة", quoteIndex:0,
+            timerSecs:1500, timerBase:1500, timerRunning:false,
+            dailyTasks:[
+              { id:"d1", text:"أذكار الصباح", done:false },
+              { id:"d2", text:"مراجعة الحفظ اليومي", done:false },
+              { id:"d3", text:"قراءة ٥٠ صفحة", done:false }
+            ],
+            newDaily:"", taskStreak:0,
+            programs:[
+              "حلقة القرآن — الأحد",
+              "حلقة القرآن — الاثنين",
+              "حلقة القرآن — الثلاثاء",
+              "حلقة القرآن — الأربعاء",
+              "حلقة القرآن — الخميس",
+              "طلعة — الخميس",
+              "برنامج  — الاثنين",
+              "برنامج — الأربعاء",
+              "برنامج إضافي"
+            ], progMarks:{},
+            newName:"", newId:"", newPass:"", addError:"",
+            added:[
+              { name:"أسامة العنقري", id:"5101", pass:"7248" },
+              { name:"فيصل السناني", id:"5102", pass:"3915" },
+              { name:"عبدالرحمن العريني", id:"5103", pass:"8462" },
+              { name:"علي الحسن", id:"5104", pass:"5137" },
+              { name:"ريان الناصر", id:"5105", pass:"2694" },
+              { name:"إبراهيم التمامي", id:"5106", pass:"9351" },
+              { name:"سلمان المعمر", id:"5107", pass:"4826" },
+              { name:"عبدالرحمن الجويعد", id:"5108", pass:"6173" },
+              { name:"خالد القعيضب", id:"5001", pass:"1584" },
+              { name:"مهند الهاجري", id:"5002", pass:"7936" },
+              { name:"عبدالرحمن الفايز", id:"5003", pass:"2418" },
+              { name:"معاذ أباحسين", id:"5004", pass:"8672" },
+              { name:"مشاري الجارالله", id:"5005", pass:"3549" },
+              { name:"ليث المهيدب", id:"5006", pass:"9127" },
+              { name:"أحمد الحسن", id:"5007", pass:"4783" },
+              { name:"عبدالعزيز العويشق", id:"5008", pass:"6291" },
+              { name:"عمر السناني", id:"5009", pass:"1857" },
+              { name:"إبراهيم المهيزع", id:"5010", pass:"7364" },
+              { name:"عبدالرحمن الماجد", id:"5011", pass:"2935" },
+              { name:"أسامة آل الشيخ", id:"5012", pass:"8516" },
+              { name:"عبدالرحمن الناصر", id:"5013", pass:"4172" },
+              { name:"حمود الربيعان", id:"4901", pass:"6948" },
+              { name:"محمد الطلبي", id:"4902", pass:"3251" },
+              { name:"عبدالعزيز السند", id:"4903", pass:"9784" },
+              { name:"عبدالله الناصر", id:"4904", pass:"1463" },
+              { name:"محمد الجريوي", id:"4905", pass:"5829" },
+              { name:"حسام الأحمد", id:"4906", pass:"7615" }
+            ] };
+
+  componentDidMount(){
+    var self = this, tries = 0;
+    var poll = setInterval(function(){
+      tries++;
+      if (window.lucide && window.lucide.icons) { clearInterval(poll); self.forceUpdate(); }
+      else if (tries > 40) clearInterval(poll);
+    }, 100);
+  }
+  componentWillUnmount(){ if (this._timer) clearInterval(this._timer); }
+  startTimer(){
+    var self = this;
+    if (this.state.timerRunning || this.state.timerSecs <= 0) return;
+    this.setState({ timerRunning: true });
+    this._timer = setInterval(function(){
+      self.setState(function(s){
+        if (s.timerSecs <= 1){ clearInterval(self._timer); return { timerSecs: 0, timerRunning: false }; }
+        return { timerSecs: s.timerSecs - 1 };
+      });
+    }, 1000);
+  }
+  pauseTimer(){ if (this._timer) clearInterval(this._timer); this.setState({ timerRunning: false }); }
+  resetTimer(){ if (this._timer) clearInterval(this._timer); this.setState(function(s){ return { timerSecs: s.timerBase, timerRunning: false }; }); }
+  setTimerPreset(min){ var self = this; return function(){ if (self._timer) clearInterval(self._timer); self.setState({ timerBase: min * 60, timerSecs: min * 60, timerRunning: false }); }; }
+
+  /* real Lucide glyph, built from the loaded icon set — never hand-drawn */
+  iconFor(id){
+    var name = ICONS[id];
+    var L = window.lucide;
+    if (!L || !L.icons || !L.icons[name] || !L.createElement) return null;
+    var el = L.createElement(L.icons[name]);
+    el.setAttribute("width", "20");
+    el.setAttribute("height", "20");
+    el.setAttribute("stroke", "currentColor");
+    return React.createElement("span", {
+      style: { display: "flex", lineHeight: 0 },
+      dangerouslySetInnerHTML: { __html: el.outerHTML }
+    });
+  }
+
+  go(screen){ var self = this; return function(){ self.setState({ screen: screen }); }; }
+  openCollege(id){ var self = this; return function(){ self.setState({ screen:"colleges", collegeId:id }); }; }
+  pickLevel(key){ var self = this; return function(){ self.setState({ levelKey:key }); }; }
+  mark(name, val){
+    var self = this;
+    return function(){
+      self.setState(function(s){
+        var next = Object.assign({}, s.marks);
+        next[name] = val;
+        return { marks: next, saved:false };
+      });
+    };
+  }
+  tab(name){
+    var on = this.state.screen === name;
+    return { line: on ? "#facb62" : "transparent", fg: on ? "#fff" : "rgba(255,255,255,.68)" };
+  }
+  pill(on, color){
+    return on
+      ? { bg: color, fg: "#16272f", border: color }
+      : { bg: "rgba(255,255,255,.06)", fg: "rgba(255,255,255,.72)", border: "rgba(255,255,255,.18)" };
+  }
+  statusMeta(s){
+    var M = {
+      none:     { label: "لم تُنجز",               bg: "rgba(255,255,255,.1)",   fg: "rgba(255,255,255,.7)" },
+      pending:  { label: "بانتظار مراجعة المشرف",  bg: "rgba(250,203,98,.18)",  fg: "#facb62" },
+      approved: { label: "معتمدة",                 bg: "rgba(78,185,182,.18)",  fg: "#4eb9b6" },
+      rejected: { label: "مرفوضة — تُعاد",          bg: "rgba(238,124,125,.18)", fg: "#ee7c7d" }
+    };
+    return M[s] || M.none;
+  }
+  taskSkin(s){
+    var S = {
+      none: {
+        accent:"#4eb9b6",
+        cardBg:"linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03))",
+        cardBorder:"rgba(255,255,255,.14)",
+        glow:"0 8px 22px rgba(0,0,0,.25)",
+        medalBg:"linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.06))",
+        medalFg:"#fff", blob:"rgba(78,185,182,.16)"
+      },
+      pending: {
+        accent:"#facb62",
+        cardBg:"linear-gradient(135deg,rgba(250,203,98,.16),rgba(250,203,98,.04))",
+        cardBorder:"rgba(250,203,98,.4)",
+        glow:"0 10px 28px rgba(250,203,98,.18)",
+        medalBg:"linear-gradient(145deg,#facb62,#e0a63f)",
+        medalFg:"#1e3540", blob:"rgba(250,203,98,.22)"
+      },
+      approved: {
+        accent:"#4eb9b6",
+        cardBg:"linear-gradient(135deg,rgba(78,185,182,.2),rgba(78,185,182,.05))",
+        cardBorder:"rgba(78,185,182,.5)",
+        glow:"0 12px 32px rgba(78,185,182,.28)",
+        medalBg:"linear-gradient(145deg,#4eb9b6,#2a7d7a)",
+        medalFg:"#0e2026", blob:"rgba(78,185,182,.3)"
+      },
+      rejected: {
+        accent:"#ee7c7d",
+        cardBg:"linear-gradient(135deg,rgba(238,124,125,.18),rgba(238,124,125,.04))",
+        cardBorder:"rgba(238,124,125,.45)",
+        glow:"0 10px 28px rgba(238,124,125,.2)",
+        medalBg:"linear-gradient(145deg,#ee7c7d,#c85557)",
+        medalFg:"#2a0e0e", blob:"rgba(238,124,125,.24)"
+      }
+    };
+    return S[s] || S.none;
+  }
+
+  renderVals(){
+    var self = this, st = this.state;
+    var isSupervisor = st.role === "supervisor";
+    var screen = (!isSupervisor && st.screen === "att") ? "home" : st.screen;
+    var stuOn = st.loginRole === "student";
+    var loginStu = this.pill(stuOn, "#4eb9b6");
+    var loginSup = this.pill(!stuOn, "#4eb9b6");
+
+    var active = COLLEGES.filter(function(c){ return c.id === st.collegeId; })[0] || COLLEGES[0];
+    function tagOf(c){
+      return c.optional
+        ? { tag:"اختيارية", tagBg:"rgba(250,203,98,.18)", tagFg:"#facb62" }
+        : { tag:"إلزامية", tagBg:"rgba(78,185,182,.18)", tagFg:"#4eb9b6" };
+    }
+    function badgeOf(c){
+      if (c.mine) return { badge:"", badgeBg:"transparent", badgeFg:"transparent" };
+      if (c.optional) return { badge:"اختيارية", badgeBg:"rgba(250,203,98,.2)", badgeFg:"#facb62" };
+      return { badge:"", badgeBg:"transparent", badgeFg:"transparent" };
+    }
+
+    var colleges = COLLEGES.map(function(c){
+      var chip = self.pill(c.id === st.collegeId, c.color);
+      return Object.assign({}, c, tagOf(c), badgeOf(c), {
+        icon: self.iconFor(c.id),
+        pct: Math.round((c.passed / 4) * 100),
+        ratio: c.passed + "/4",
+        showProgress: !!(c.mine || c.optional),
+        onOpen: self.openCollege(c.id),
+        chipBg: chip.bg, chipFg: chip.fg, chipBorder: chip.border
+      });
+    });
+
+    var levelCards = LEVELS.map(function(l, i){
+      return { n: ar(i + 1), label: l.label, note: l.note, bg: l.bg, fg: l.fg };
+    });
+
+    var levelTabs = LEVELS.map(function(l){
+      var on = l.key === st.levelKey;
+      return {
+        label: l.label,
+        onPick: self.pickLevel(l.key),
+        bg: on ? "rgba(255,255,255,.12)" : "transparent",
+        fg: on ? "#fff" : "rgba(255,255,255,.6)",
+        border: on ? "rgba(255,255,255,.18)" : "transparent"
+      };
+    });
+
+    var li = 0;
+    LEVELS.forEach(function(l, i){ if (l.key === st.levelKey) li = i; });
+    var done = active.passed;
+    var PAINT = {
+      "مُجتاز": ["rgba(78,185,182,.18)", "#4eb9b6"],
+      "جارٍ": ["rgba(250,203,98,.18)", "#facb62"],
+      "متاح": ["rgba(255,255,255,.1)", "rgba(255,255,255,.75)"],
+      "مُغلق": ["rgba(255,255,255,.06)", "rgba(255,255,255,.42)"]
+    };
+    function tasksFor(cid, lkey){
+      var k = cid + "|" + lkey;
+      return st.tasks[k] ? st.tasks[k] : (UNITS[lkey] || []);
+    }
+    var SKINKEY = { "مُجتاز":"approved", "جارٍ":"pending", "متاح":"none", "مُغلق":"none" };
+    var units = tasksFor(st.collegeId, st.levelKey).map(function(title, i){
+      var state = li < done ? "مُجتاز" : (li === done ? (i === 0 ? "جارٍ" : "متاح") : "مُغلق");
+      var skin = self.taskSkin(SKINKEY[state]);
+      var locked = state === "مُغلق";
+      return {
+        n: ar(i + 1), title: title, state: state, stateBg: PAINT[state][0], stateFg: PAINT[state][1],
+        cardBg: skin.cardBg, cardBorder: skin.cardBorder, glow: skin.glow,
+        medalBg: skin.medalBg, medalFg: skin.medalFg, blob: skin.blob,
+        medalGlyph: state === "مُجتاز" ? "✓" : ar(i + 1),
+        op: locked ? 0.5 : 1
+      };
+    });
+
+    var taskColleges = COLLEGES.map(function(c){
+      var chip = self.pill(c.id === st.taskCollege, c.color);
+      return { name: c.name, chipBg: chip.bg, chipFg: chip.fg, chipBorder: chip.border,
+               onPick: function(){ self.setState({ taskCollege: c.id }); } };
+    });
+    var taskLevelTabs = LEVELS.map(function(l){
+      var on = l.key === st.taskLevel;
+      return { label: l.label,
+               onPick: function(){ self.setState({ taskLevel: l.key }); },
+               bg: on ? "rgba(255,255,255,.12)" : "transparent",
+               fg: on ? "#fff" : "rgba(255,255,255,.6)",
+               border: on ? "rgba(255,255,255,.18)" : "transparent" };
+    });
+    var curTasks = tasksFor(st.taskCollege, st.taskLevel);
+    function removeTask(idx){
+      return function(){
+        self.setState(function(s){
+          var k = s.taskCollege + "|" + s.taskLevel;
+          var cur = (s.tasks[k] ? s.tasks[k] : (UNITS[s.taskLevel] || [])).slice();
+          cur.splice(idx, 1);
+          var next = Object.assign({}, s.tasks); next[k] = cur;
+          return { tasks: next };
+        });
+      };
+    }
+    var taskRows = curTasks.map(function(title, i){
+      return { n: ar(i + 1), title: title, onRemove: removeTask(i) };
+    });
+
+    var followColleges = COLLEGES.map(function(c){
+      var chip = self.pill(c.id === st.followCollege, c.color);
+      return { name: c.name, chipBg: chip.bg, chipFg: chip.fg, chipBorder: chip.border,
+               onPick: function(){ self.setState({ followCollege: c.id }); } };
+    });
+    var followLevelTabs = LEVELS.map(function(l){
+      var on = l.key === st.followLevel;
+      return { label: l.label,
+               onPick: function(){ self.setState({ followLevel: l.key }); },
+               bg: on ? "rgba(255,255,255,.12)" : "transparent",
+               fg: on ? "#fff" : "rgba(255,255,255,.6)",
+               border: on ? "rgba(255,255,255,.18)" : "transparent" };
+    });
+    var followList = tasksFor(st.followCollege, st.followLevel);
+    var openStu = st.added.filter(function(a){ return a.name === st.openStudent; })[0];
+    var openId = openStu ? openStu.id : st.openStudent;
+    function setStatus(key, val){
+      return function(){
+        self.setState(function(s){
+          var next = Object.assign({}, s.done); next[key] = val;
+          return { done: next };
+        });
+      };
+    }
+    function setTaskNote(key){
+      return function(e){
+        var v = e.target.value;
+        self.setState(function(s){
+          var next = Object.assign({}, s.taskNotes); next[key] = v;
+          return { taskNotes: next };
+        });
+      };
+    }
+    var followRows = followList.map(function(title, i){
+      var key = openId + "|" + st.followCollege + "|" + st.followLevel + "|" + title;
+      var status = st.done[key] || "none";
+      var meta = self.statusMeta(status);
+      var appr = status === "approved", rej = status === "rejected";
+      return {
+        n: ar(i + 1), title: title, approved: appr,
+        statusLabel: meta.label, statusBg: meta.bg, statusFg: meta.fg,
+        onApprove: setStatus(key, "approved"), onReject: setStatus(key, "rejected"),
+        approveBg: appr ? "#4eb9b6" : "rgba(255,255,255,.06)",
+        approveFg: appr ? "#16272f" : "rgba(255,255,255,.6)",
+        approveBorder: appr ? "#4eb9b6" : "rgba(255,255,255,.18)",
+        rejectBg: rej ? "#ee7c7d" : "rgba(255,255,255,.06)",
+        rejectFg: rej ? "#fff" : "rgba(255,255,255,.6)",
+        rejectBorder: rej ? "#ee7c7d" : "rgba(255,255,255,.18)",
+        note: st.taskNotes[key] || "", onNote: setTaskNote(key)
+      };
+    });
+    var followDone = followRows.filter(function(r){ return r.approved; }).length;
+    var followPct = followRows.length ? Math.round(followDone / followRows.length * 100) : 0;
+
+    var stages = LEVELS.map(function(l, i){
+      var isDone = i < done, isNow = i === done;
+      return {
+        n: l.label,
+        focus: FOCUS[i],
+        dot: isDone ? "#4eb9b6" : (isNow ? "#facb62" : "rgba(255,255,255,.25)"),
+        tag: isDone ? "مُجتاز" : (isNow ? "الحالي" : "لم يُفتح"),
+        tagBg: isDone ? "rgba(78,185,182,.18)" : (isNow ? "rgba(250,203,98,.18)" : "rgba(255,255,255,.08)"),
+        tagFg: isDone ? "#4eb9b6" : (isNow ? "#facb62" : "rgba(255,255,255,.5)")
+      };
+    });
+
+    var allNames = STUDENTS.concat(st.added.map(function(a){ return a.name; }));
+    var students = allNames.map(function(name){
+      var v = st.marks[name] || "";
+      var p = self.pill(v === "present", "#4eb9b6");
+      var l = self.pill(v === "late", "#facb62");
+      var a = self.pill(v === "absent", "#ee7c7d");
+      var sp = 0, sl = 0, sa = 0;
+      Object.keys(st.progMarks).forEach(function(k){
+        var parts = k.split("|");
+        if (parts[1] === name){
+          var mv = st.progMarks[k];
+          if (mv === "present") sp++; else if (mv === "late") sl++; else if (mv === "absent") sa++;
+        }
+      });
+      var sm = sp + sl + sa;
+      var spct = sm ? Math.round((sp + sl) / sm * 100) : 0;
+      return {
+        name: name, initial: name.charAt(0),
+        progCount: ar(st.programs.length),
+        marked: sm > 0, pctAr: ar(spct), presentAr: ar(sp), lateAr: ar(sl), absentAr: ar(sa),
+        pctBg: spct >= 75 ? "rgba(78,185,182,.16)" : (spct >= 50 ? "rgba(250,203,98,.16)" : "rgba(238,124,125,.16)"),
+        pctFg: spct >= 75 ? "#4eb9b6" : (spct >= 50 ? "#facb62" : "#ee7c7d"),
+        onOpen: function(){ self.setState({ openStudent: name }); },
+        onPresent: self.mark(name, "present"),
+        onLate: self.mark(name, "late"),
+        onAbsent: self.mark(name, "absent"),
+        pBg: p.bg, pFg: p.fg, pBorder: p.border,
+        lBg: l.bg, lFg: l.fg, lBorder: l.border,
+        aBg: a.bg, aFg: a.fg, aBorder: a.border
+      };
+    });
+
+    var weekPrefix = st.openStudent ? (st.week + "|" + st.openStudent + "|") : (st.week + "|");
+    var vals = Object.keys(st.progMarks).filter(function(k){ return k.indexOf(weekPrefix) === 0; }).map(function(k){ return st.progMarks[k]; });
+    function count(k){ return ar(vals.filter(function(v){ return v === k; }).length); }
+    var weeks = [];
+    for (var wi = 1; wi <= st.weekCount; wi++){
+      (function(n){
+        var on = n === st.week;
+        weeks.push({
+          label: ar(n),
+          onPick: function(){ self.setState({ week: n }); },
+          bg: on ? "#4eb9b6" : "rgba(255,255,255,.06)",
+          fg: on ? "#16272f" : "rgba(255,255,255,.75)",
+          border: on ? "#4eb9b6" : "rgba(255,255,255,.18)"
+        });
+      })(wi);
+    }
+    var allKeys = st.openStudent ? Object.keys(st.progMarks).filter(function(k){ return k.split("|")[1] === st.openStudent; }) : Object.keys(st.progMarks);
+    var allVals = allKeys.map(function(k){ return st.progMarks[k]; });
+    function totCount(v){ return allVals.filter(function(x){ return x === v; }).length; }
+    var tPres = totCount("present"), tLate = totCount("late"), tAbs = totCount("absent");
+    var tMarked = tPres + tLate + tAbs;
+    var totalPct = tMarked ? Math.round((tPres + tLate) / tMarked * 100) : 0;
+
+    var h = this.tab("home"), co = this.tab("colleges"), pl = this.tab("plan"), at = this.tab("att");
+
+    var myColl = COLLEGES.filter(function(c){ return c.mine || c.optional; });
+    var totalPassed = myColl.reduce(function(a, c){ return a + c.passed; }, 0);
+    var overallPct = Math.round(totalPassed / (myColl.length * 4) * 100);
+    var myColleges = colleges.filter(function(c){ return c.mine || c.optional; });
+    var myLevelKey = LEVELS[Math.min(MINE.passed, 3)].key;
+    var optLevelKey = LEVELS[Math.min(OPT.passed, 3)].key;
+    var myTaskList = tasksFor(MINE.id, myLevelKey);
+    var myDoneId = st.loggedId || "self";
+    function submitMyTask(key, val){
+      return function(){
+        self.setState(function(s){
+          var next = Object.assign({}, s.done); next[key] = val;
+          return { done: next };
+        });
+      };
+    }
+    function buildUnits(cid, lkey){
+      return tasksFor(cid, lkey).map(function(title, i){
+        var key = myDoneId + "|" + cid + "|" + lkey + "|" + title;
+        var status = st.done[key] || "none";
+        var meta = self.statusMeta(status);
+        var skin = self.taskSkin(status);
+        var appr = status === "approved", pend = status === "pending", rej = status === "rejected";
+        var note = st.taskNotes[key] || "";
+        return {
+          n: ar(i + 1), title: title, approved: appr,
+          statusLabel: meta.label, statusBg: meta.bg, statusFg: meta.fg,
+          accent: skin.accent, cardBg: skin.cardBg, cardBorder: skin.cardBorder, glow: skin.glow,
+          medalBg: skin.medalBg, medalFg: skin.medalFg, blob: skin.blob,
+          medalGlyph: appr ? "✓" : ar(i + 1),
+          hasAction: !appr,
+          onAction: pend ? submitMyTask(key, "none") : submitMyTask(key, "pending"),
+          actionLabel: pend ? "تراجع" : (rej ? "إعادة الإرسال" : "أنجزتُ المهمة"),
+          actionBg: pend ? "rgba(255,255,255,.06)" : "linear-gradient(135deg,#4eb9b6,#3aa6a3)",
+          actionFg: pend ? "rgba(255,255,255,.7)" : "#0e2026",
+          actionBorder: pend ? "rgba(255,255,255,.18)" : "rgba(78,185,182,.6)",
+          note: note, showNote: !!note && rej
+        };
+      });
+    }
+    var myUnits = buildUnits(MINE.id, myLevelKey);
+    var myOptionalUnits = buildUnits(OPT.id, optLevelKey);
+    var myTasksLeft = myUnits.filter(function(u){ return !u.approved; }).length;
+    var mySecretId = myDoneId;
+    function secretCap(t){ return t.cap || 5; }
+    function claimSecret(id){
+      return function(){
+        self.setState(function(s){
+          var list = s.secretTasks.map(function(t){
+            if (t.id !== id || t.claimers.indexOf(mySecretId) !== -1) return t;
+            return Object.assign({}, t, { claimers: t.claimers.concat([mySecretId]) });
+          }).filter(function(t){ return t.claimers.length < (t.cap || 5); });
+          return { secretTasks: list };
+        });
+      };
+    }
+    function removeSecret(id){
+      return function(){ self.setState(function(s){ return { secretTasks: s.secretTasks.filter(function(t){ return t.id !== id; }) }; }); };
+    }
+    function setSecretCap(id){
+      return function(e){
+        var v = parseInt(e.target.value, 10);
+        if (isNaN(v) || v < 1) v = 1;
+        if (v > 99) v = 99;
+        self.setState(function(s){
+          var list = s.secretTasks.map(function(t){ return t.id === id ? Object.assign({}, t, { cap: v }) : t; })
+            .filter(function(t){ return t.claimers.length < (t.cap || 5); });
+          return { secretTasks: list };
+        });
+      };
+    }
+    var secretRows = st.secretTasks.map(function(t){
+      var cap = secretCap(t);
+      var claimed = t.claimers.indexOf(mySecretId) !== -1;
+      var remaining = cap - t.claimers.length;
+      return {
+        title: t.title, claimed: claimed, canClaim: !claimed && remaining > 0,
+        onClaim: claimSecret(t.id),
+        position: claimed ? ar(t.claimers.indexOf(mySecretId) + 1) : "",
+        slotLabel: "متبقٍ " + ar(remaining) + " من " + ar(cap),
+        slotFg: remaining <= 1 ? "#ee7c7d" : (remaining <= 2 ? "#facb62" : "#4eb9b6")
+      };
+    });
+    var secretSupRows = st.secretTasks.map(function(t){
+      var cap = secretCap(t);
+      return { title: t.title, claimedCountAr: ar(t.claimers.length), capAr: ar(cap), capVal: cap,
+               onCap: setSecretCap(t.id), onRemove: removeSecret(t.id) };
+    });
+    function removeQuote(id){ return function(){ self.setState(function(s){ return { quotes: s.quotes.filter(function(q){ return q.id !== id; }) }; }); }; }
+    var quoteList = st.quotes.map(function(q){ return { type: q.type, text: q.text, onRemove: removeQuote(q.id) }; });
+    var curQuote = st.quotes.length ? st.quotes[st.quoteIndex % st.quotes.length] : null;
+    var QTYPES = ["عبارة", "قصيدة", "حديث"];
+    var quoteTypeChips = QTYPES.map(function(tp){
+      var on = st.newQuoteType === tp;
+      return { label: tp, onPick: function(){ self.setState({ newQuoteType: tp }); },
+               bg: on ? "#facb62" : "rgba(255,255,255,.06)", fg: on ? "#1e3540" : "rgba(255,255,255,.7)", border: on ? "#facb62" : "rgba(255,255,255,.18)" };
+    });
+    var tMin = Math.floor(st.timerSecs / 60), tSec = st.timerSecs % 60;
+    function pad2(n){ return n < 10 ? "0" + n : "" + n; }
+    var timerLabel = ar(pad2(tMin) + ":" + pad2(tSec));
+    var timerPresets = [5, 10, 15, 25, 45].map(function(m){
+      var on = st.timerBase === m * 60;
+      return { label: ar(m) + " د", onPick: self.setTimerPreset(m),
+               bg: on ? "rgba(78,185,182,.2)" : "rgba(255,255,255,.06)", fg: on ? "#4eb9b6" : "rgba(255,255,255,.7)", border: on ? "rgba(78,185,182,.5)" : "rgba(255,255,255,.18)" };
+    });
+    function toggleDaily(id, val){ return function(){ self.setState(function(s){ return { dailyTasks: s.dailyTasks.map(function(t){ return t.id === id ? Object.assign({}, t, { done: val }) : t; }) }; }); }; }
+    function removeDaily(id){ return function(){ self.setState(function(s){ return { dailyTasks: s.dailyTasks.filter(function(t){ return t.id !== id; }) }; }); }; }
+    var dailyRows = st.dailyTasks.map(function(t){
+      var done = t.done;
+      return {
+        text: t.text, done: done, notDone: !done,
+        onDone: toggleDaily(t.id, true), onNot: toggleDaily(t.id, false), onRemove: removeDaily(t.id),
+        doneBg: done ? "#4eb9b6" : "rgba(255,255,255,.06)",
+        doneFg: done ? "#0e2026" : "rgba(255,255,255,.6)",
+        doneBorder: done ? "#4eb9b6" : "rgba(255,255,255,.18)",
+        notBg: !done ? "#ee7c7d" : "rgba(255,255,255,.06)",
+        notFg: !done ? "#fff" : "rgba(255,255,255,.6)",
+        notBorder: !done ? "#ee7c7d" : "rgba(255,255,255,.18)"
+      };
+    });
+    var dailyDone = dailyRows.filter(function(r){ return r.done; }).length;
+    var dailyPct = dailyRows.length ? Math.round(dailyDone / dailyRows.length * 100) : 0;
+    var weekBarsData = [
+      { day:"الأحد", pct:100, pctAr:ar(100), color:"#4eb9b6" },
+      { day:"الاثنين", pct:80, pctAr:ar(80), color:"#4eb9b6" },
+      { day:"الثلاثاء", pct:100, pctAr:ar(100), color:"#4eb9b6" },
+      { day:"الأربعاء", pct:60, pctAr:ar(60), color:"#facb62" },
+      { day:"الخميس", pct:80, pctAr:ar(80), color:"#4eb9b6" }
+    ];
+    var attendDays = weekBarsData.filter(function(w){ return w.pct >= 60; }).length;
+
+    return {
+      isSupervisor: isSupervisor,
+      isHome: screen === "home",
+      isLogin: screen === "login",
+      notHome: screen !== "home",
+      isDash: screen === "dash",
+      loggedIn: st.loggedIn === true,
+      notLoggedIn: st.loggedIn !== true,
+      headerUserLabel: isSupervisor ? (st.supName ? st.supName + " — مشرف" : "المشرف") : ((st.loggedName || "عبدالرحمن") + " — طالب"),
+      onLogout: function(){ self.setState({ loggedIn:false, role:"student", screen:"home", userId:"", pass:"" }); },
+      overallPctAr: ar(overallPct),
+      donutDash: (overallPct / 100 * 452.4).toFixed(1) + " 452.4",
+      attendancePctAr: ar(84), attendancePctNum: 84,
+      weekBars: weekBarsData,
+      attendDaysAr: ar(attendDays),
+      taskStreakAr: ar(st.taskStreak),
+      myUnits: myUnits,
+      myOptionalUnits: myOptionalUnits,
+      optLevelLabel: LEVELS[Math.min(OPT.passed, 3)].label,
+      optCollegeName: OPT.name,
+      optOpenUnits: ar(myOptionalUnits.filter(function(u){ return !u.approved; }).length),
+      bannerText: curQuote ? curQuote.text : "أضف أول عبارة تحفيزية من لوحة التحفيز بالأسفل — عبارة أو بيت شعر أو حديث.",
+      bannerType: curQuote ? curQuote.type : "تحفيز",
+      hasQuotes: st.quotes.length > 0,
+      noQuotes: st.quotes.length === 0,
+      nextQuote: function(){ self.setState(function(s){ return { quoteIndex: (s.quoteIndex + 1) % Math.max(1, s.quotes.length) }; }); },
+      quoteList: quoteList,
+      quoteTypeChips: quoteTypeChips,
+      newQuote: st.newQuote,
+      onNewQuote: function(e){ self.setState({ newQuote: e.target.value }); },
+      onAddQuote: function(e){ e.preventDefault(); var t = st.newQuote.trim(); if (!t) return; self.setState(function(s){ return { quotes: s.quotes.concat([{ id: "q" + Date.now(), type: s.newQuoteType, text: t }]), newQuote: "" }; }); },
+      timerLabel: timerLabel,
+      timerRunning: st.timerRunning,
+      timerToggleLabel: st.timerRunning ? "إيقاف" : "ابدأ",
+      onTimerToggle: st.timerRunning ? function(){ self.pauseTimer(); } : function(){ self.startTimer(); },
+      onTimerReset: function(){ self.resetTimer(); },
+      timerPresets: timerPresets,
+      timerPct: st.timerBase ? Math.round(st.timerSecs / st.timerBase * 100) : 0,
+      dailyRows: dailyRows,
+      hasDaily: st.dailyTasks.length > 0,
+      noDaily: st.dailyTasks.length === 0,
+      dailyDoneAr: ar(dailyDone),
+      dailyTotalAr: ar(dailyRows.length),
+      dailyPct: dailyPct,
+      dailyPctAr: ar(dailyPct),
+      dailyDash: (dailyPct / 100 * 452.4).toFixed(1) + " 452.4",
+      newDaily: st.newDaily,
+      onNewDaily: function(e){ self.setState({ newDaily: e.target.value }); },
+      onAddDaily: function(e){ e.preventDefault(); var t = st.newDaily.trim(); if (!t) return; self.setState(function(s){ return { dailyTasks: s.dailyTasks.concat([{ id: "d" + Date.now(), text: t, done: false }]), newDaily: "" }; }); },
+      secretRows: secretRows,
+      secretSupRows: secretSupRows,
+      hasSecret: st.secretTasks.length > 0,
+      noSecret: st.secretTasks.length === 0,
+      newSecret: st.newSecret,
+      newSecretCapVal: st.newSecretCap,
+      onNewSecret: function(e){ self.setState({ newSecret: e.target.value }); },
+      onNewSecretCap: function(e){ var v = parseInt(e.target.value, 10); if (isNaN(v) || v < 1) v = 1; if (v > 99) v = 99; self.setState({ newSecretCap: v }); },
+      onAddSecret: function(e){
+        e.preventDefault();
+        var name = st.newSecret.trim();
+        if (!name) return;
+        var cap = st.newSecretCap && st.newSecretCap > 0 ? st.newSecretCap : 5;
+        self.setState(function(s){
+          return { secretTasks: s.secretTasks.concat([{ id: "s" + Date.now(), title: name, cap: cap, claimers: [] }]), newSecret: "" };
+        });
+      },
+      myColleges: myColleges,
+      studentName: (st.loggedName || "عبدالرحمن").split(" ")[0],
+      myCollegeName: MINE.name,
+      myLevelLabel: LEVELS[Math.min(MINE.passed, 3)].label,
+      myPassed: ar(MINE.passed),
+      myOpenUnits: ar(myTasksLeft),
+      goLogin: this.go("login"),
+      pickStudent: function(){ self.setState({ loginRole:"student", loginError:"" }); },
+      pickSupervisor: function(){ self.setState({ loginRole:"supervisor", loginError:"" }); },
+      idLabel: stuOn ? "الرقم الجامعي" : "رقم المشرف",
+      userId: st.userId,
+      pass: st.pass,
+      onUserId: function(e){ self.setState({ userId: e.target.value, loginError:"" }); },
+      onPass: function(e){ self.setState({ pass: e.target.value, loginError:"" }); },
+      loginError: st.loginError,
+      loginStuBg: loginStu.bg, loginStuFg: stuOn ? "#fff" : loginStu.fg, loginStuBorder: loginStu.border,
+      loginSupBg: loginSup.bg, loginSupFg: !stuOn ? "#fff" : loginSup.fg, loginSupBorder: loginSup.border,
+      onLogin: function(e){
+        e.preventDefault();
+        if (!st.userId.trim() || !st.pass.trim()) { self.setState({ loginError:"أدخل الرقم وكلمة المرور." }); return; }
+        var supName = "", loggedName = "", loggedId = "";
+        if (st.loginRole === "supervisor") {
+          var match = SUPERVISORS.filter(function(v){ return v.id === st.userId.trim() && v.pass === st.pass; });
+          if (!match.length) { self.setState({ loginError:"بيانات المشرف غير صحيحة." }); return; }
+          supName = match[0].name;
+        } else {
+          var stu = st.added.filter(function(a){ return a.id === st.userId.trim(); });
+          if (!stu.length || st.pass !== stu[0].pass) { self.setState({ loginError:"بيانات الطالب غير صحيحة." }); return; }
+          loggedName = stu[0].name; loggedId = stu[0].id;
+        }
+        self.setState({
+          role: st.loginRole,
+          screen: st.loginRole === "supervisor" ? "att" : "dash",
+          loggedIn: true, supName: supName, loggedName: loggedName, loggedId: loggedId,
+          loginError:"", pass:""
+        });
+      },
+      isColleges: screen === "colleges",
+      isPlan: screen === "plan",
+      isAtt: screen === "att",
+      goHome: this.go("home"),
+      showBackToAccount: st.loggedIn === true && screen === "home",
+      goAccount: function(){ self.setState({ screen: st.role === "supervisor" ? "att" : "dash" }); },
+      goColleges: this.go("colleges"),
+      goPlan: this.go("plan"),
+      goAtt: this.go("att"),
+      setStudentRole: function(){ self.setState({ role:"student", screen:"home" }); },
+      setSupervisorRole: function(){ self.setState({ role:"supervisor", screen:"att" }); },
+      tabHomeLine: h.line, tabHomeFg: h.fg,
+      tabCollLine: co.line, tabCollFg: co.fg,
+      tabPlanLine: pl.line, tabPlanFg: pl.fg,
+      tabAttLine: at.line, tabAttFg: at.fg,
+      roleStuBg: isSupervisor ? "transparent" : "#4eb9b6",
+      roleStuFg: isSupervisor ? "rgba(255,255,255,.7)" : "#16272f",
+      roleSupBg: isSupervisor ? "#4eb9b6" : "transparent",
+      roleSupFg: isSupervisor ? "#16272f" : "rgba(255,255,255,.7)",
+      colleges: colleges,
+      levelCards: levelCards,
+      active: Object.assign({}, active, tagOf(active)),
+      levelTabs: levelTabs,
+      units: units,
+      stages: stages,
+      students: students,
+      activeLevelLabel: LEVELS[li].label,
+      weekAr: ar(st.week), weekCountAr: ar(st.weekCount),
+      totalPresent: ar(tPres), totalLate: ar(tLate), totalAbsent: ar(tAbs), totalPctAr: ar(totalPct),
+      totalScopeNote: st.openStudent ? ("للطالب: " + st.openStudent) : ("لكل طالب على حدة — عبر " + ar(st.weekCount) + " أسبوعًا"),
+      weeks: weeks,
+      weekCountVal: st.weekCount,
+      onWeekCount: function(e){
+        var v = parseInt(e.target.value, 10);
+        if (isNaN(v) || v < 1) v = 1;
+        if (v > 52) v = 52;
+        self.setState(function(s){ return { weekCount: v, week: Math.min(s.week, v) }; });
+      },
+      countPresent: count("present"),
+      countLate: count("late"),
+      countAbsent: count("absent"),
+      newName: st.newName, newId: st.newId, newPass: st.newPass, addError: st.addError,
+      onNewName: function(e){ self.setState({ newName: e.target.value, addError:"" }); },
+      onNewId: function(e){ self.setState({ newId: e.target.value, addError:"" }); },
+      onNewPass: function(e){ self.setState({ newPass: e.target.value, addError:"" }); },
+      onAddStudent: function(e){
+        e.preventDefault();
+        if (!st.newName.trim() || !st.newId.trim() || !st.newPass.trim()) { self.setState({ addError:"أكمل الاسم والرقم الجامعي وكلمة المرور." }); return; }
+        self.setState(function(s){
+          return { added: s.added.concat([{ name: s.newName.trim(), id: s.newId.trim(), pass: s.newPass.trim() }]),
+                   newName:"", newId:"", newPass:"", addError:"" };
+        });
+      },
+      addedList: st.added.slice().reverse().map(function(a){ return { name: a.name, id: a.id, initial: a.name.charAt(0) }; }),
+      addedCount: ar(st.added.length),
+      noOpenStudent: !st.openStudent,
+      isStudentOpen: !!st.openStudent,
+      openStudent: st.openStudent || "",
+      openInitial: (st.openStudent || " ").charAt(0),
+      progCountLabel: ar(st.programs.length),
+      closeStudent: function(){ self.setState({ openStudent:null, newProgram:"" }); },
+      newProgram: st.newProgram,
+      onNewProgram: function(e){ self.setState({ newProgram: e.target.value }); },
+      onAddProgram: function(e){
+        e.preventDefault();
+        var name = st.newProgram.trim();
+        if (!name || st.programs.indexOf(name) !== -1) { self.setState({ newProgram:"" }); return; }
+        self.setState(function(s){ return { programs: s.programs.concat([name]), newProgram:"" }; });
+      },
+      hasPrograms: st.programs.length > 0,
+      noPrograms: st.programs.length === 0,
+      followColleges: followColleges,
+      followLevelTabs: followLevelTabs,
+      followRows: followRows,
+      hasFollow: followRows.length > 0,
+      noFollow: followRows.length === 0,
+      studentNote: st.studentNotes[openId] || "",
+      onStudentNote: function(e){ var v = e.target.value; self.setState(function(s){ var n = Object.assign({}, s.studentNotes); n[openId] = v; return { studentNotes: n }; }); },
+      followDone: ar(followDone),
+      followTotal: ar(followRows.length),
+      followPct: followPct,
+      followPctAr: ar(followPct),
+      programRows: st.programs.map(function(prog){
+        var key = st.week + "|" + st.openStudent + "|" + prog;
+        var v = st.progMarks[key] || "";
+        function setMark(val){
+          return function(){
+            self.setState(function(s){
+              var next = Object.assign({}, s.progMarks);
+              next[key] = val;
+              return { progMarks: next };
+            });
+          };
+        }
+        var p = self.pill(v === "present", "#4eb9b6");
+        var l = self.pill(v === "late", "#facb62");
+        var a = self.pill(v === "absent", "#ee7c7d");
+        return {
+          name: prog,
+          onPresent: setMark("present"), onLate: setMark("late"), onAbsent: setMark("absent"),
+          pBg: p.bg, pFg: p.fg, pBorder: p.border,
+          lBg: l.bg, lFg: l.fg, lBorder: l.border,
+          aBg: a.bg, aFg: a.fg, aBorder: a.border
+        };
+      }),
+      taskColleges: taskColleges,
+      taskLevelTabs: taskLevelTabs,
+      taskRows: taskRows,
+      hasTasks: curTasks.length > 0,
+      noTasks: curTasks.length === 0,
+      newTask: st.newTask,
+      onNewTask: function(e){ self.setState({ newTask: e.target.value }); },
+      onAddTask: function(e){
+        e.preventDefault();
+        var name = st.newTask.trim();
+        if (!name) return;
+        self.setState(function(s){
+          var k = s.taskCollege + "|" + s.taskLevel;
+          var cur = (s.tasks[k] ? s.tasks[k] : (UNITS[s.taskLevel] || [])).slice();
+          if (cur.indexOf(name) !== -1) return { newTask:"" };
+          cur.push(name);
+          var next = Object.assign({}, s.tasks); next[k] = cur;
+          return { tasks: next, newTask:"" };
+        });
+      },
+      hasAdded: st.added.length > 0,
+      noAdded: st.added.length === 0,
+      savedNote: st.saved ? "تم حفظ التحضير." : "لم يُحفظ بعد.",
+      onSave: function(){ self.setState({ saved:true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
